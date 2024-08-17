@@ -13,8 +13,8 @@
 ; 2024-07-25: Added requires v2 line
 
 ; Scan Code Mappings:
-; W   SC011
-; A   SC01E
+; Z   SC011
+; Q   SC01E
 ; S   SC01F
 ; D   SC020
 
@@ -29,14 +29,14 @@ ProcessSetPriority "High"
 A_MaxHotkeysPerInterval := 99000000
 A_HotkeyInterval := 0
 
-global a_held := 0  ; Variable that stores the actual keyboard state of the A key
+global q_held := 0  ; Variable that stores the actual keyboard state of the Q key
 global d_held := 0  ; Variable that stores the actual keyboard state of the D key
-global a_scrip := 0 ; Variable that stores the state of the A key output from the script
+global q_scrip := 0 ; Variable that stores the state of the Q key output from the script
 global d_scrip := 0 ; Variable that stores the state of the D key output from the script
 
-global w_held := 0
+global z_held := 0
 global s_held := 0
-global w_scrip := 0
+global q_scrip := 0
 global s_scrip := 0
 
 /* Un-comment this section if you want the end button to open a dialog that asks to close the script
@@ -53,11 +53,11 @@ End:: ; <--- this button exits the script
 }
 */
 
-*$SC01E:: ; *$a:: ; Every time the a key is pressed, * to include occurences with modifiers (shift, control, alt, etc)
+*$SC01E:: ; *$q:: ; Every time the a key is pressed, * to include occurences with modifiers (shift, control, alt, etc)
 {   
     global
 
-    a_held := 1  ; Track the actual state of the A key
+    q_held := 1  ; Track the actual state of the Q key
     
     if d_scrip
     { 
@@ -66,19 +66,19 @@ End:: ; <--- this button exits the script
     }
     
     a_scrip := 1
-    SendInput "{Blind}{SC01E down}" ; A down key
+    SendInput "{Blind}{SC01E down}" ; Q down key
 }
 
-*$SC01E up:: ; *$a up:: ; Every time the a key is released
+*$SC01E up:: ; *$q up:: ; Every time the a key is released
 {    
     global
 
-    a_held := 0
+    q_held := 0
     
-    if a_scrip
+    if q_scrip
     {
-        a_scrip := 0
-        SendInput "{Blind}{SC01E up}"  ; A up key
+        q_scrip := 0
+        SendInput "{Blind}{SC01E up}"  ; Q up key
     }
         
     if d_held && !d_scrip
@@ -94,10 +94,10 @@ End:: ; <--- this button exits the script
 
     d_held := 1
     
-    if a_scrip
+    if q_scrip
     {
-        a_scrip := 0
-        SendInput "{Blind}{SC01E up}"  ; Release the A key if it's held down
+        q_scrip := 0
+        SendInput "{Blind}{SC01E up}"  ; Release the Q key if it's held down
     }
     
     d_scrip := 1
@@ -116,18 +116,18 @@ End:: ; <--- this button exits the script
         SendInput "{Blind}{SC020 up}"  ; D up key
     }
     
-    if a_held && !a_scrip
+    if q_held && !q_scrip
     {
-        a_scrip := 1
-        SendInput "{Blind}{SC01E down}"  ; A down key if it's held
+        q_scrip := 1
+        SendInput "{Blind}{SC01E down}"  ; Q down key if it's held
     }
 }
 
-*$SC011:: ; *$w::
+*$SC011:: ; *$z::
 {    
     global
 
-    w_held := 1
+    z_held := 1
 
     if s_scrip 
     {
@@ -135,19 +135,19 @@ End:: ; <--- this button exits the script
         SendInput "{Blind}{SC01F up}"
     }
 
-    w_scrip := 1
+    z_scrip := 1
     SendInput "{Blind}{SC011 down}"
 }
 
-*$SC011 up:: ; *$w up::
+*$SC011 up:: ; *$z up::
 {    
     global
 
-    w_held := 0
+    z_held := 0
 
-    if w_scrip
+    if z_scrip
     {
-        w_scrip := 0
+        z_scrip := 0
         SendInput "{Blind}{SC011 up}"
     }
 
@@ -164,9 +164,9 @@ End:: ; <--- this button exits the script
 
     s_held := 1
 
-    if w_scrip 
+    if z_scrip 
     {
-        w_scrip := 0
+        z_scrip := 0
         SendInput "{Blind}{SC011 up}"
     }
 
@@ -186,9 +186,9 @@ End:: ; <--- this button exits the script
         SendInput "{Blind}{SC01F up}"
     }
 
-    if w_held && !w_scrip 
+    if z_held && !z_scrip 
     {
-        w_scrip := 1
+        z_scrip := 1
         SendInput "{Blind}{SC011 down}"
     }
 }
